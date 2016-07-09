@@ -1,0 +1,50 @@
+from tkinter import *
+root = Tk()
+#pack(padx, pady) 设置与边框的距离，单位（像素）
+
+#初始化拖拽
+#sb = Scrollbar(root)
+#sb.pack()
+
+#添加文本框，显示文本
+#tShowMsg = Text(root, yscrollcommand=sb.set)#文本框注入
+#使用pack设置位置
+#tShowMsg.pack()
+#使用grid()设置位置
+tShowMsg = Text(root, width=30, height=5)
+tShowMsg.grid(row=0, column=0, rowspan=2, padx=10, pady=5)
+#sb.config(command=tShowMsg.yview)
+
+
+#输入框，只能输入一行
+#eInputMsg = Entry(root)
+#eInputMsg.pack()
+#使用文本框进行输入
+eInputMsg = Text( root, width=30, height=5 )
+eInputMsg.grid( row=2, column=0, rowspan=2, padx=10, pady=5 )
+
+#索引行和列
+def show():
+    #删除文本框的内容
+    tShowMsg.delete(1.0, END)#1.0表示第1行0列，END表示最后一行最后一列？
+    #tShowMsg.insert(INSERT, eInputMsg.get() )
+    tShowMsg.insert(INSERT, eInputMsg.get(1.0, END))
+
+bEncryption = Button(root, text="click", command=show)
+bEncryption.grid(row=0, column=1)
+
+def crack():
+    pass
+
+Button(root, text="解密", command=crack).grid(row=1, column=1)
+
+def sav():
+    pass
+Button(root, text="保存", command=sav).grid(row=2, column=1)
+#退出
+Button(root, text="exit", command=root.quit).grid(row=3, column=1)
+
+
+
+mainloop()
+
