@@ -5,7 +5,7 @@
 import random
 
 key = "dsf"
-msg = "goodgirl"#如何处理空格
+msg = "hknudxnt"#如何处理空格
 print("msg:%s"%(msg))
 
 #encryption
@@ -68,7 +68,7 @@ def crack( morse_code, key="dsf" ):
     randmsg = ""
     temp = ""
     for c in morse_code:
-        #按空格合并
+        #按空格合并,处理最后一个字符
         if c != ' ':
             temp += c
             continue
