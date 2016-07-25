@@ -1,6 +1,13 @@
 from tkinter import *
+from encryption_source import *
+
 root = Tk()
 #pack(padx, pady) 设置与边框的距离，单位（像素）
+
+class Var:
+    msg = ""
+    cipher = ""
+
 
 #初始化拖拽
 #sb = Scrollbar(root)
@@ -24,19 +31,28 @@ eInputMsg = Text( root, width=30, height=5 )
 eInputMsg.grid( row=2, column=0, rowspan=2, padx=10, pady=5 )
 
 #索引行和列
-def show():
+#def show():
     #删除文本框的内容
-    tShowMsg.delete(1.0, END)#1.0表示第1行0列，END表示最后一行最后一列？
+#    tShowMsg.delete(1.0, END)#1.0表示第1行0列，END表示最后一行最后一列？
     #tShowMsg.insert(INSERT, eInputMsg.get() )
-    tShowMsg.insert(INSERT, eInputMsg.get(1.0, END))
+#    tShowMsg.insert(INSERT, eInputMsg.get(1.0, END))
 
-bEncryption = Button(root, text="click", command=show)
-bEncryption.grid(row=0, column=1)
+def encrypt_gui():
+    tShowMsg.delete(1.0, END)
+    Var.msg = eInputMsg.get(1.0, END)
+    Var.cipher = encrypt(Var.msg)
+    tShowMsg.insert(INSERT, Var.cipher)
 
-def crack():
-    pass
+bEncryption = Button( root, text="加密", command=encrypt_gui )
+bEncryption.grid( row=0, column=1 )
 
-Button(root, text="解密", command=crack).grid(row=1, column=1)
+def crack_gui():
+    tShowMsg.delete(1.0, END)
+    Var.cipher = eInputMsg.get(1.0, END)
+    Var.msg = crack(Var.cipher)
+    tShowMsg.insert(INSERT, Var.msg)
+
+Button(root, text="解密", command=crack_gui ).grid(row=1, column=1)
 
 def sav():
     pass

@@ -2,15 +2,27 @@
 #1.密钥串的循环 2.排除密钥字母 3插入混淆字符
 #tip:morsecode yourname MIGI+泉新一
 #映射 morse code: 字母间以空格分隔，//[]单词间以/分隔
-import random
+#已解决morse码中含有回车问题
 
-key = "dsf"
-msg = "hknudxnt"#如何处理空格
-print("msg:%s"%(msg))
+
+#bugger:
+#1.end char err
+#2.do not random the end char always same
+import random
+#from encryption_gui import * 
+
+#key = "dsf"
+#msg = "hknudxnt"#如何处理空格
+#print("msg:%s"%(msg))
 
 #encryption
 #step 1: mix
-def encrypt(msg):
+def encrypt(msg, key="dsf"):
+    #去除空格回车
+    msg = [ x for x in msg if x not in [' ','\n'] ]
+    #判断明文
+    if msg[0] in '.-':
+        return "请按解密按钮哦~"
     #生成不包括key的字母字表
     alpha = "abcdefghijklmnopqrstuvwxyz"
     encryt_table = [x for x in alpha if x not in key ]
@@ -22,7 +34,7 @@ def encrypt(msg):
         for c in key:
             #disturb_char_count = random.randint(0, 3)#插入3个随机字符
             #for i in range(disturb_char_count):
-                #列表中随机选3个
+            #列表中随机选3个
             randmsg += ''.join( random.sample(encryt_table, random.randint(0, 3)))
             randmsg += c
             randmsg += msg[pos]
@@ -31,9 +43,9 @@ def encrypt(msg):
                 break
         if pos == msg_len:
             break
-    print("randmsg:%s"%(randmsg))
+    ##print( "randmsg:%s"%(randmsg) )
 
-    #step 2: reflect morse code
+#step 2: reflect morse code
     alpha = "abcdefghijklmnopqrstuvwxyz"
     pot = [".-", "-...", "-.-.", "-..", ".", "..-.", "--.", "....",
            "..", ".---", "-.-", ".-..", "--", "-.", "---", ".--.",
@@ -48,12 +60,16 @@ def encrypt(msg):
     morse_code = ""
     for c in randmsg:
         morse_code += morse_table[c]
-        morse_code += ' '
-    print("morse_code:%s"%(morse_code))
+        morse_code += ' '#最后会多一个空格
+    #print("morse_code:%s"%(morse_code))
     return morse_code
 
 #crack
 def crack( morse_code, key="dsf" ):
+    morse_code = morse_code.replace('\n',' ')#去除\n
+    if morse_code[0] not in '.-':
+        return "请按加密按钮哦~"
+    morse_code += ' '
     #demorse code
     alpha = "abcdefghijklmnopqrstuvwxyz"
     pot = [".-", "-...", "-.-.", "-..", ".", "..-.", "--.", "....",
@@ -65,6 +81,7 @@ def crack( morse_code, key="dsf" ):
     for c in pot:
         morse_table_reverse[c] = alpha[ pot.index(c)]
 
+    morse_table_reverse[''] = ''
     randmsg = ""
     temp = ""
     for c in morse_code:
@@ -76,7 +93,7 @@ def crack( morse_code, key="dsf" ):
             randmsg += morse_table_reverse[temp]
             temp = ""
         
-    print("randmsg:%s"%(randmsg))
+    #print("randmsg:%s"%(randmsg))
 
     #acquire msg
     msg = ""
@@ -90,10 +107,11 @@ def crack( morse_code, key="dsf" ):
         index += 1
         if index >= randmsg_len:
             break
-    print("msg:%s"%(msg))    
+    #print("msg:%s"%(msg))
+    return msg
 
-morse_code = encrypt( msg )
-
-crack( morse_code )   
+if __name__ == "__main__":
+    morse_code = encrypt( msg )
+    crack( morse_code )   
 
 #print( random.randint(0, 3) )
