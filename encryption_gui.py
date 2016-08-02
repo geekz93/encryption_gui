@@ -1,22 +1,14 @@
 from tkinter import *
 from encryption_source import *
+from PIL import Image, ImageTk  # pillow 模块
 
 root = Tk()
 #pack(padx, pady) 设置与边框的距离，单位（像素）
-root.title("msgEncrypter")
+root.title("加密小程序")
 root.resizable(False, False)
 class Var:
     msg = ""
     cipher = ""
-
-#剪贴板操作
-#root.clipboard_append()
-#root.clipboard_clear()
-#root.clipboard_get()
-
-#初始化拖拽
-#sb = Scrollbar(root)
-#sb.pack()
 
 #添加文本框，显示文本
 #tShowMsg = Text(root, yscrollcommand=sb.set)#文本框注入
@@ -32,7 +24,8 @@ bth = 1#30ppi
 
 tShowMsg = Text(root, width=txtw, height=txth)
 tShowMsg.grid(row=0, column=0, rowspan=2, padx=10, pady=10)
-#sb.config(command=tShowMsg.yview)
+
+
 tShowMsg.insert(INSERT, "显示框")
 
 
@@ -51,9 +44,27 @@ def TipClear(event):
 eInputMsg.bind("<Button-1>", TipClear)
 tShowMsg.bind("<Button-1>", TipClear)
 
-def RightPress(event):
-    pass
-eInputMsg.bind("<ButtonRelease-3>", RightPress)
+class section:
+    def onCopy(self, TextFlame):
+        root.clipboard_clear()
+        root.clipboard_append( TextFlame.get(1.0, END))
+    def onPaste(self, TextFlame):
+        TextFlame.insert(INSERT, root.clipboard_get())
+    def onCut(self, TextFlame):
+        self.onCopy(TextFlame)
+        TextFlame.delete(1.0, END)
+section = section()
+
+def popmenu(event):
+    menu = Menu(root, tearoff=0)
+    menu.add_command(label="复制", command=lambda:section.onCopy(event.widget))
+    menu.add_separator()
+    menu.add_command(label="粘贴", command=lambda:section.onPaste(event.widget))
+    menu.add_separator()
+    menu.add_command(label="剪切", command=lambda:section.onCut(event.widget))
+    menu.post(event.x_root, event.y_root)
+eInputMsg.bind("<ButtonRelease-3>", popmenu)
+tShowMsg.bind("<ButtonRelease-3>", popmenu)
 
 def encrypt_gui():
     tShowMsg.delete(1.0, END)
@@ -75,17 +86,17 @@ def sav():
     tShowMsg.delete(1.0, END)
     tShowMsg.insert(INSERT, "保存成功，文件名为record.txt~")
 
-Button(root, text="解密", command=crack_gui, width=btw, height=bth ).place(x=379, y=60)#
+Button(root, text="解密", command=crack_gui, width=btw, height=bth ).place(x=384, y=60)#
 
 
-Button(root, text="保存", command=sav, width=btw, height=bth).place(x=379, y=110)
+Button(root, text="保存", command=sav, width=btw, height=bth).place(x=384, y=110)
 #退出
-Button(root, text="退出", command=root.quit, width=btw, height=bth).place(x=379, y=160)
+Button(root, text="退出", command=root.quit, width=btw, height=bth).place(x=384, y=160)
 
 #添加图片
-photo = PhotoImage(file="fang.gif")
+photo =ImageTk.PhotoImage(Image.open("fang.jpg"))
 imgLabel = Label(root, image=photo)
-imgLabel.place(x=379, y=210)
+imgLabel.place(x=384, y=210)
 
 
 ############

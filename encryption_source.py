@@ -12,7 +12,7 @@ import random
 #from encryption_gui import * 
 
 #key = "dsf"
-msg = "iloveyou"#如何处理空格
+#msg = "iloveyou"#如何处理空格
 #print("msg:%s"%(msg))
 
 #encryption
@@ -116,7 +116,7 @@ def crack( morse_code, key="dsf" ):
 
 def save_info(msg, cipher):
     f=open("record.txt", mode='w')
-    f.write(msg+cipher)
+    f.write(msg+'\n'+cipher)
     f.close()
     return "保存成功~"
 
