@@ -12,7 +12,7 @@ import random
 #from encryption_gui import * 
 
 #key = "dsf"
-#msg = "hknudxnt"#如何处理空格
+msg = "iloveyou"#如何处理空格
 #print("msg:%s"%(msg))
 
 #encryption
@@ -20,6 +20,8 @@ import random
 def encrypt(msg, key="dsf"):
     #去除空格回车
     msg = [ x for x in msg if x not in [' ','\n'] ]
+    if not len(msg):
+        return "请先输入文字..."
     #判断明文
     if msg[0] in '.-':
         return "请按解密按钮哦~"
@@ -67,6 +69,8 @@ def encrypt(msg, key="dsf"):
 #crack
 def crack( morse_code, key="dsf" ):
     morse_code = morse_code.replace('\n',' ')#去除\n
+    if len(morse_code)==0:
+        return "请先输入文字..."
     if morse_code[0] not in '.-':
         return "请按加密按钮哦~"
     morse_code += ' '
@@ -109,6 +113,12 @@ def crack( morse_code, key="dsf" ):
             break
     #print("msg:%s"%(msg))
     return msg
+
+def save_info(msg, cipher):
+    f=open("record.txt", mode='w')
+    f.write(msg+cipher)
+    f.close()
+    return "保存成功~"
 
 if __name__ == "__main__":
     morse_code = encrypt( msg )

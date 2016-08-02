@@ -60,7 +60,9 @@ def crack_gui():
     tShowMsg.insert(INSERT, Var.msg)
 
 def sav():
-    pass
+    save_info(Var.msg, Var.cipher)
+    tShowMsg.delete(1.0, END)
+    tShowMsg.insert(INSERT, "保存成功，文件名为record.txt~")
 
 Button(root, text="解密", command=crack_gui, width=btw, height=bth ).place(x=379, y=60)#
 
