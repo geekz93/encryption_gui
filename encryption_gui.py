@@ -18,8 +18,15 @@ class Var:
 #使用pack设置位置
 #tShowMsg.pack()
 #使用grid()设置位置
-tShowMsg = Text(root, width=30, height=5)
-tShowMsg.grid(row=0, column=0, rowspan=2, padx=10, pady=5)
+
+txtw = 50
+txth = 10
+btw = 12
+bth = 1#30ppi
+
+
+tShowMsg = Text(root, width=txtw, height=txth)
+tShowMsg.grid(row=0, column=0, rowspan=2, padx=10, pady=10)
 #sb.config(command=tShowMsg.yview)
 
 
@@ -27,8 +34,8 @@ tShowMsg.grid(row=0, column=0, rowspan=2, padx=10, pady=5)
 #eInputMsg = Entry(root)
 #eInputMsg.pack()
 #使用文本框进行输入
-eInputMsg = Text( root, width=30, height=5 )
-eInputMsg.grid( row=2, column=0, rowspan=2, padx=10, pady=5 )
+eInputMsg = Text( root, width=txtw, height=txth )
+eInputMsg.grid( row=2, column=0, rowspan=2, padx=10, pady=10 )
 
 #索引行和列
 #def show():
@@ -43,8 +50,8 @@ def encrypt_gui():
     Var.cipher = encrypt(Var.msg)
     tShowMsg.insert(INSERT, Var.cipher)
 
-bEncryption = Button( root, text="加密", command=encrypt_gui )
-bEncryption.grid( row=0, column=1 )
+bEncryption = Button( root, text="加密", command=encrypt_gui, width=btw, height=bth)
+bEncryption.grid( row=0, column=1, padx=5, pady=10, sticky=N)
 
 def crack_gui():
     tShowMsg.delete(1.0, END)
@@ -52,13 +59,15 @@ def crack_gui():
     Var.msg = crack(Var.cipher)
     tShowMsg.insert(INSERT, Var.msg)
 
-Button(root, text="解密", command=crack_gui ).grid(row=1, column=1)
-
 def sav():
     pass
-Button(root, text="保存", command=sav).grid(row=2, column=1)
+
+Button(root, text="解密", command=crack_gui, width=btw, height=bth ).place(x=379, y=60)#
+
+
+Button(root, text="保存", command=sav, width=btw, height=bth).place(x=379, y=110)
 #退出
-Button(root, text="exit", command=root.quit).grid(row=3, column=1)
+Button(root, text="退出", command=root.quit, width=btw, height=bth).place(x=379, y=160)
 
 
 
